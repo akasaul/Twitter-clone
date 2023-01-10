@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	
+}
+
+@layer utilities {
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	/* background: #15202B; */
+	background: black;
+	color: white;
+	font-weight: 600;
+}
+
+.sidebar {
+	flex: 0.3;
+}
+
+.feed {
+	flex: 0.4;
+}
+
+.trending {
+	flex: 1 1 250px;
+}
+
+.cover {
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.profile-pic {
+	height: calc(64px + 2vw);
+	width: calc(64px + 2vw);
+	max-width: 100px;
+	max-height: 100px;
+	border-width: calc(0.7px + 0.2vw);
+}
+
+@media (max-width: 640px) {
+	.feed {
+		flex: 1;
+	}
+}
