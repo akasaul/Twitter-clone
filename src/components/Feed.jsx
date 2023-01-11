@@ -8,7 +8,8 @@ import { addPost, setPost } from '../store/post/postActions';
 import { useEffect } from 'react';
 import { selectPost } from '../store/post/postSlice';
 import { db } from '../firebase';
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onSnapshot, collection, where, orderBy, query } from 'firebase/firestore';
+import { data } from 'autoprefixer';
 
 
 const Feed = () => {
@@ -34,11 +35,11 @@ const Feed = () => {
   setPost('');
   }
 
-  // const posts = useSelector(selectPost);
-
   useEffect(() => {
-    onSnapshot(collection(db, "posts"), (snapshot) => {
-        snapshot.docs.map((doc) => setPosts([posts, doc.data()]));
+    const colRef = collection(db, "posts");
+    const q = query(colRef, orderBy("timestamp", "desc"));
+    onSnapshot(q, async (snapshot) => {
+        setPosts(snapshot.docs.map((doc) => ({data: doc.data(),  id: doc.id})));
       })
   }, []);
 
@@ -71,9 +72,9 @@ const Feed = () => {
         </section>
       }
       {
-        posts.map((post) => {
-          <Post />
-        })
+        posts.map((item) => (
+          <Post photo={item.data.user.photo} key={item.id} displayName={item.data.user.name} username={item.data.user.username} img={item.data.img} timestamp={item.data.timestamp} article={item.data.article} />
+          ))
       }
     </div>
   )
